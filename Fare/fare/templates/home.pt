@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>FARE</title>
+<meta name="keywords" content="python web application" />
+<meta name="description" content="repoze.bfg web application" />
+<link href="${request.application_url}/static/default.css" rel="stylesheet" 
+      type="text/css" />
+</head>
+<body>
+<!-- start header -->
+<div id="logo">
+  <h2>Fare: Free Agent Reporter for Expenses</h2>
+</div>
+<div id="header">
+  <div id="menu">
+  </div>
+</div>
+<!-- end header -->
+<div id="wrapper">
+  <!-- start page -->
+  <div id="page">
+
+    <!-- start content -->
+    <div id="content">
+      <p id="message">Message: ${message}</p>
+
+      <form action="" method="POST">
+	Domain <input id="domain" name="domain"></input> .freeagentcentral.com
+	<br/>
+	Email <input id="email" name="email"></input>
+	<br/>
+	Password <input id="password" name="password"></input>
+	<br/>
+	<input type="submit" value="Authenticate to FreeAgent"></input>
+      </form>
+    </div>
+    <!-- end content -->
+
+    <div style="clear: both;">&nbsp;</div>
+  </div>
+</div>
+<!-- end page -->
+<!-- start footer -->
+<div id="footer">
+  <p id="legal">( c ) 2010 Koansys.com</p>
+</div>
+<!-- end footer -->
+</body>
+</html>
