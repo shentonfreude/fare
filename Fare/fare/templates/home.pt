@@ -33,7 +33,7 @@
 	<br/>
 	Email <input id="email" name="email"></input>
 	<br/>
-	Password <input id="password" name="password"></input>
+	Password <input id="password" name="password" type="password"></input>
 	<br/>
 	<input type="submit" value="Authenticate to FreeAgent"></input>
       </form>

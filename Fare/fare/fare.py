@@ -107,7 +107,6 @@ def expense(request):
             category=request.POST['category'],
             )
         # validate form: TODO: need more, like date (want picker)
-        import pdb; pdb.set_trace()
         try:
             _famount = float(values['amount'])
         except ValueError:

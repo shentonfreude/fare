@@ -1,0 +1,96 @@
+========================================
+ FARE: Free Agent Reporter for Expenses
+========================================
+
+FreeAgent is a web-based service to track clients, work time,
+invoices, bank accounts, and accounting reports.  It offers a growing
+REST API.
+
+We wanted a way to easily submit expenses so we wouldn't forget
+them. We considered Mac dashboard widgets and iPhone apps, but we
+might not always have the laptop out, and one of us doesn't have an
+iPhone.  A very lean webapp could be displayed on any intelligent
+phone, even the old Palm Treo one of use uses.
+
+The home screen simply captures your authentication credentials::
+
+  Domain:   mycompany   (under .freeagentcentral.com)
+  Email:    myname@mycompany.example.com
+  Password: ********
+
+You will need to have created at least one bank account and enabled
+REST API on your site to allow access (done under Settings -> API and
+Feeds).
+
+If it can successfully authenticate, it takes you to a page to gather
+expense information::
+
+  Account:     pulldown
+  Amount:      in your currency
+  Date:        YYYY-MM-DD
+  Description: whatever your accountant and tax-man thinks wise
+  Category:    pulldown
+
+The accounts are loaded from the ones in FreeAgent. Currently the
+Categories are hard-coded from HTML scraped from FreeAgent's site, as
+I don't know a way to query for this with the REST API.
+
+It then submits the information as an XML blob via HTTP POST, and
+grabs the response code.  If successful, it will tell you.  
+
+You can later check your FreeAgent site and see the expense in the
+transactions.
+
+This little app can't (yet?) view transactions or edit them.  Creeping
+featurism is a worry.
+
+
+TO DO
+=====
+
+* Date Picker
+* Expense (debit, default) vs. Credit (payment) radio button
+* Put auth creds in session but not cleartext cookies!
+* Make confirmation notice more humane: show details?
+* O-wrap and slight styling
+* Clean up models and files we don't need
+* Consider a way to retrieve and show expenses
+* Do I want to start adding timeslip creation? And other unrelated features?
+* Would it have been easier to just re-skin FreeAgentCentral with
+  something like Deliverance?
+* More tests
+
+
+Getting BFG running simply for FARE with no DB
+==============================================
+
+Checkout the code from GitHub.
+
+Make a virtualenv for it::
+
+ /usr/local/python/2.6.4/bin/virtualenv --no-site-packages ~/.virtualenvs/fare
+ source ~/.virtualenvs/fare/bin/activate
+
+Follow the Repoze BFG instructuctions::
+
+ easy_install -i http://dist.repoze.org/bfg/1.2/simple repoze.bfg
+
+I can get a skeleton setup (without SQL or ZODB database)::
+
+  paster create -t bfg_starter Fare
+  cd Fare
+  python setup.py develop
+
+It didn't need to install anything that wasn't already installed by
+the easy_install.  So perhaps I didn't need to do this, but it's nice
+I don't have to create my own structure (setup.py, etc) from scratch.
+
+I always forget about this, but you can get a python shell loaded up
+with stuff your project uses::
+
+  paster --plugin=repoze.bfg bfgshell Fare.ini main
+
+Since I don't need a database (SQL no ZODB) I don't need models. So
+I've removed a bunch of stuff, leaving mostly the .ini file, run.py
+and the fare.py which implements the views. I probably could rename
+that to views.py so it is more familiar to BFG developers.
