@@ -26,20 +26,91 @@
 
     <!-- start content -->
     <div id="content">
-      <p id="message">Message: ${message}</p>
-      <p id="message">domain: ${domain}</p>
-      <p id="message">email: ${email}</p>
-      <p id="message">password: ${password}</p>
+      <h2>${domain} ${email}</h2>
+
+      <h3>Message:</h3>
+      <p>${message}</p>
+
+      <h3>Expense</h3>
 
       <form action="" method="POST">
-	Domain <input id="domain" name="domain"></input> .freeagentcentral.com
+	Account
+	<select id="account" name="account">
+	  <option tal:repeat="id accounts"
+		  tal:attributes="value id"
+		  tal:content="python:accounts[id]">ACCOUNTNAME</option>
+	</select>
 	<br/>
-	Email <input id="email" name="email"></input>
+
+	Amount <input id="amount" name="amount"></input>
 	<br/>
-	Password <input id="password" name="password"></input>
+
+	Date <input id="date" name="date"></input> (as YYYY-MM-DD)
 	<br/>
-	<input type="submit" value="Authenticate to FreeAgent"></input>
+
+	Description <input id="description" name="description"></input>
+	<br/>
+
+	Category
+	<select id="category" name="category">
+	  <optgroup label="Admin Expenses"> 
+	    <option value="Accommodation">Accommodation</option> 
+	    <option value="Accountancy Fees">Accountancy Fees</option> 
+	    <option value="Advertising and Promotion">Advertising and Promotion</option> 
+	    <option value="Auto Expenses">Auto Expenses</option> 
+	    <option value="Bank/Finance Charges">Bank/Finance Charges</option> 
+	    <option value="Books and Journals">Books and Journals</option> 
+	    <option value="Business Entertaining">Business Entertaining</option> 
+	    <option value="Cell Phone">Cell Phone</option> 
+	    <option value="Charitable Donations" selected="selected">Charitable Donations</option> 
+	    <option value="Computer Hardware">Computer Hardware</option> 
+	    <option value="Computer Software">Computer Software</option> 
+	    <option value="Consultancy Fees">Consultancy Fees</option> 
+	    <option value="Currency Exchange Loss">Currency Exchange Loss</option> 
+	    <option value="Employee Benefits">Employee Benefits</option> 
+	    <option value="Insurance">Insurance</option> 
+	    <option value="Interest Payable">Interest Payable</option> 
+	    <option value="Internet &amp; Telephone">Internet &amp; Telephone</option> 
+	    <option value="Leasing Payments">Leasing Payments</option> 
+	    <option value="Legal and Professional Fees">Legal and Professional Fees</option> 
+	    <option value="Licenses and Permits">Licenses and Permits</option> 
+	    <option value="Meals">Meals</option> 
+	    <option value="Miscellaneous">Miscellaneous</option> 
+	    <option value="Office Costs">Office Costs</option> 
+	    <option value="Office Equipment">Office Equipment</option> 
+	    <option value="Other Computer Costs">Other Computer Costs</option> 
+	    <option value="Pension/Retirement Plan">Pension/Retirement Plan</option> 
+	    <option value="Postage">Postage</option> 
+	    <option value="Printing">Printing</option> 
+	    <option value="Rent">Rent</option> 
+	    <option value="Staff Entertaining">Staff Entertaining</option> 
+	    <option value="Staff Training">Staff Training</option> 
+	    <option value="Stationery">Stationery</option> 
+	    <option value="Subscriptions">Subscriptions</option> 
+	    <option value="Travel">Travel</option> 
+	    <option value="Use Of Home">Use Of Home</option> 
+	    <option value="Web Hosting">Web Hosting</option> 
+	  </optgroup> 
+	  <optgroup label="Cost of Sales"> 
+	    <option value="Commission Paid">Commission Paid</option> 
+	    <option value="Cost of Sales">Cost of Sales</option> 
+	    <option value="Equipment Hire">Equipment Hire</option> 
+	    <option value="Materials">Materials</option> 
+	    <option value="Subcontractor Costs">Subcontractor Costs</option> 
+	  </optgroup> 
+	  <optgroup label="Staff Costs"> 
+	    <option value="Benefit in Kind">Benefit in Kind</option> 
+	    <option value="Net Salary Expense">Net Salary Expense</option> 
+	    <option value="Payroll Taxes Expense">Payroll Taxes Expense</option> 
+	  </optgroup> 
+	  <optgroup label="Taxes"> 
+	    <option value="Other Taxes">Other Taxes</option> 
+	  </optgroup> 
+	</select> 
+	<br/>
+	<input type="submit" value="Submit Expense"/>
       </form>
+
     </div>
     <!-- end content -->
 
