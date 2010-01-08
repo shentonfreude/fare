@@ -59,6 +59,7 @@ TO DO
 * Would it have been easier to just re-skin FreeAgentCentral with
   something like Deliverance?
 * More tests
+* Put referral code into templates for us'n'them discount
 
 
 Getting BFG running simply for FARE with no DB

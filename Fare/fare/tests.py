@@ -12,26 +12,26 @@ class ViewTests(unittest.TestCase):
         self.config.end()
 
     def test_view_home(self):
-        from fare import home
+        from views import home
         request = testing.DummyRequest()
         info = home(request)
         self.assertEqual(info['message'], '')
 
     def test_get_bank_accounts_bad_domain(self):
-        from fare import _get_bank_accounts
-        from fare import NonXMLResponseError
+        from views import _get_bank_accounts
+        from views import NonXMLResponseError
         self.assertRaises(NonXMLResponseError, _get_bank_accounts,
                           "baddomain", "email", "password")
 
     def test_get_bank_accounts_bad_auth(self):
-        from fare import _get_bank_accounts
-        from fare import BadAuthError
+        from views import _get_bank_accounts
+        from views import BadAuthError
         self.assertRaises(BadAuthError, _get_bank_accounts,
                           "koansyssandbox", "bademail", "badpassword")
 
 
     def test_get_bank_accounts_exist(self):
-        from fare import _get_bank_accounts
+        from views import _get_bank_accounts
         domain = "koansyssandbox"
         email = "chris@shenton.org"
         password = "koansyssandbox"
