@@ -58,4 +58,18 @@ class ViewTests(unittest.TestCase):
 
 
 
+    def test_get_expense_types(self):
+        from views import _get_expenses_types
+        domain = "koansyssandbox"
+        email = "chris@shenton.org"
+        password = "koansyssandbox"
+        expenses = _get_expenses_types(domain, email, password)
+        print expenses
+        # we don't know the bank account numbers or names
+        # so just check we get a non-empty dict and an id is integer
+        #self.assertEquals(type(accounts), dict)
+        #self.assertNotEqual(len(accounts), 0)
+        #self.assertTrue(int(accounts.keys()[0]))
+
+
 

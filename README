@@ -61,6 +61,7 @@ TO DO
 * Do I want to start adding timeslip creation? And other unrelated features?
 * Would it have been easier to just re-skin FreeAgentCentral with
   something like Deliverance?
+* No way yet in API to get an account's balance it seems
 
 Getting BFG running simply for FARE with no DB
 ==============================================

@@ -85,7 +85,38 @@ def _get_bank_account_entries(domain, email, password, account, range="?view=rec
         entry['amount']      = e.findall('gross-value')[0].text
         entries.append(entry)
     return sorted(entries, key=lambda(k): k['date'], reverse=True)[:10]
+
     
+def _get_expenses_types(domain, email, password):
+    """Return list of expenses types to categorize expenses.
+    Unfortunately, they're categorized oddly instead of using attributes,
+    so we'll have to ask for each subset and then set the pulldown apprpriately.
+    Need to make select option groups with the supertypes.
+    <expense-types>
+      <admin-expenses>
+        <type>Accommodation</type>
+        ...
+      </admin-expenses>
+      <cost-of-sales>
+        <type>Commission Paid</type>
+        ...
+      </cost-of-sales>
+      <capital-assets>
+        <type>Purchase of Capital Asset</type>
+        ...
+      </capital-assets>
+    </expense-types>
+
+    """
+    site = _get_response(domain, email, password, "expenses/types")
+    tree = et.parse(site)
+    uber_types = [('admin-expenses',[]), ('cost-of-sales',[]), ('capital-assets',[])]
+    for uber,types in uber_types:
+        for e in tree.getroot().find(uber).findall('type'):
+            types.append(e.text)
+        types.sort()
+    return uber_types
+        
 def home(request):
     domain = email = password = message = ''
     if request.method == 'POST':
