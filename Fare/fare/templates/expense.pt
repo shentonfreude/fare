@@ -111,6 +111,16 @@
 	<input type="submit" value="Submit Expense"/>
       </form>
 
+      <h2>Recent Entries</h2>
+      <table>
+	<tr tal:repeat="entry entries">
+	  <td>${entry['date']}</td>
+	  <td>${entry['description']}</td>
+	  <td>${entry['category']}</td>
+	  <td>${entry['amount']}</td>
+	</tr>
+      </table>
+
     </div>
     <!-- end content -->
 

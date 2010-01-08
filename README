@@ -48,19 +48,19 @@ featurism is a worry.
 TO DO
 =====
 
+* Default date to today, in ISO format
 * Date Picker
 * Expense (debit, default) vs. Credit (payment) radio button
 * Put auth creds in session but not cleartext cookies!
 * Make confirmation notice more humane: show details?
 * O-wrap and slight styling
-* Clean up models and files we don't need
-* Consider a way to retrieve and show expenses
+* More tests
+* Put referral code into templates for us'n'them discount
+* Make XML extractors generic, always return list of dicts of requested attrs
+* get entries doesn't seem to limit by ?view=recent, more than 10
 * Do I want to start adding timeslip creation? And other unrelated features?
 * Would it have been easier to just re-skin FreeAgentCentral with
   something like Deliverance?
-* More tests
-* Put referral code into templates for us'n'them discount
-
 
 Getting BFG running simply for FARE with no DB
 ==============================================
