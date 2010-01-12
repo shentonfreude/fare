@@ -47,6 +47,7 @@ def _get_response(domain, email, password, path, data=None):
     Response is XML, no JSON available (yet).
     """
     url = "https://%s.freeagentcentral.com/%s" % (domain, path)
+    logging.info("_get_response url=%s" % url)
     print "# URL=%s" % url
     request = urllib2.Request(url, data,
                               headers={'Accept' : 'application/xml',
@@ -57,7 +58,7 @@ def _get_response(domain, email, password, path, data=None):
     try:
         site = urllib2.urlopen(request)
     except urllib2.HTTPError, e:
-        # XXX wrongly catches 404s too
+        # XXX wrongly catches 404=NotFound, 400=BadRequest too
         raise BadAuthError, "Authentication failed, check your username and password, ensure Settings->API is enabled (%s)" % e
     if not site.headers['content-type'].startswith("application/xml"):
         raise NonXMLResponseError, "Not an XML response, check your domain"
@@ -190,6 +191,7 @@ def expense(request):
     if request.method == 'POST':
         form.process_post(request.POST)
         if form.is_valid():     # if not, sets form.errors
+            logging.info("expense post form=%s" % form)
             data = """
 <bank-account-entry>
  <bank-account-id type="integer">%(account)s</bank-account-id>

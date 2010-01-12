@@ -48,10 +48,14 @@ featurism is a worry.
 TO DO
 =====
 
-* Default date to today, in ISO format
+* get expense types from URL query (each time? too big to store in session?)
+* separate out form from template variables -- or use repoze.bfg.formish tool?
 * Date Picker
 * Expense (debit, default) vs. Credit (payment) radio button
 * Put auth creds in session but not cleartext cookies!
+  token = paste.auth.auth_tkt.AuthTicket('sharedsec', 'username', '1.2.3.4', user_data="subdom|password")
+  token.cookie_value()
+  token.user_data
 * Make confirmation notice more humane: show details?
 * O-wrap and slight styling
 * More tests
