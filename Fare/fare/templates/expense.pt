@@ -13,7 +13,7 @@
 <body>
 <!-- start header -->
 <div id="logo">
-  <h2>Fare: Free Agent Reporter for Expenses</h2>
+  <h2>FARE: Free Agent Reporter for Expenses</h2>
 </div>
 <div id="header">
   <div id="menu">
@@ -28,8 +28,19 @@
     <div id="content">
       <h2>${domain} ${email}</h2>
 
-      <h3>Message:</h3>
-      <p>${message}</p>
+      <div tal:condition="message">
+	<h3>Message:</h3>
+	<p>${message}</p>
+      </div>
+
+      <div tal:condition="errors">
+	<h3>Errors:</h3>
+	<ul>
+	  <li class="error" 
+	      tal:repeat="error errors"
+	      tal:content="error">ERROR MSG</li>
+	</ul>
+      </div>
 
       <h3>Expense</h3>
 
@@ -114,15 +125,17 @@
 	<input type="submit" value="Submit Expense"/>
       </form>
 
-      <h2>Recent Entries</h2>
-      <table>
-	<tr tal:repeat="entry entries">
+      <div tal:condition="entries">
+	<h2>Recent Entries for account ${entries_account}</h2>
+	<table>
+	  <tr tal:repeat="entry entries">
 	  <td>${entry['date']}</td>
 	  <td>${entry['description']}</td>
 	  <td>${entry['category']}</td>
 	  <td>${entry['amount']}</td>
-	</tr>
-      </table>
+	  </tr>
+	</table>
+      </div>
 
     </div>
     <!-- end content -->

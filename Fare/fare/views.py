@@ -177,7 +177,7 @@ def expense(request):
     email = request.cookies['email']
     password = request.cookies['password']
     accounts = _get_bank_accounts(domain, email, password)
-    entries = []                # transactions
+    logging.info("expense accounts=%s" % accounts)
 
     # category selection done in HTML in the template
 
@@ -200,19 +200,16 @@ def expense(request):
 </bank-account-entry>
 """ % form.__dict__
             logging.info("expense post form data=%s" % data)
-
-#              response = _get_response(domain, email, password,
-#                                       "/bank_accounts/%s/bank_account_entries" % form.account,
-#                                       data)
-#              if response.code == 201:
-#                  message = "%s %s" % (response.msg, response.headers['location'])
-#              else:
-#                  message = "Something bad? %s %s" % (response.code, response.msg)
-#              return dict(domain=domain, email=email,
-#                          message=message, accounts=accounts)
-#####    entries = _get_bank_account_entries(domain, email, password, form.account)
-
-            form.message = "OK dude"
+            response = _get_response(domain, email, password,
+                                     "/bank_accounts/%s/bank_account_entries" % form.account,
+                                     data)
+            if response.code == 201:
+                message = "%s %s" % (response.msg, response.headers['location'])
+                form.entries = _get_bank_account_entries(domain, email, password, form.account)
+                form.entries_account = accounts[form.account]
+            else:
+                message = "Something bad? %s %s" % (response.code, response.msg)
+            form.message = message
             return form.__dict__
     # Method is GET or POST form invalid
     form.message = "new form"
