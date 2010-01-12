@@ -30,6 +30,11 @@ from webob.exc import HTTPFound
 import urllib2
 from base64 import encodestring
 import xml.etree.cElementTree as et
+import logging
+import datetime
+
+
+logging.basicConfig(level=logging.DEBUG)
 
 class FareError(Exception): pass
 class NonXMLResponseError(FareError): pass
@@ -139,51 +144,76 @@ def home(request):
     return dict(domain=domain, email=email, password=password, message=message)
 
 
+class ExpenseForm(object):
+
+    def __init__(self, **kwargs):
+        """Create (empty) form from attrs"""
+        logging.info("ExpenseForm init   kwargs.keys=%s" % kwargs.keys())
+        for kw in kwargs.keys():
+            setattr(self, kw, kwargs[kw])
+        self.errors     = []
+
+    def process_post(self, post):
+        """Process a request.POST"""
+        #type of POST is <instance>
+        for attr in post.keys():            # need to compare with attrs in form.__dict__?
+            setattr(self, attr, post[attr]) # default to '' if no attr??
+
+    def is_valid(self):
+        try:
+            float(self.amount)
+        except ValueError, e:
+            self.errors.append("Amount must be numeric (%s)" % e)
+        if self.errors:
+            return False
+        return True
+        
+
+
+
 def expense(request):
-    message = ''
+    #message = ''
     domain = request.cookies['domain_']
     email = request.cookies['email']
     password = request.cookies['password']
     accounts = _get_bank_accounts(domain, email, password)
-    entries = []
+    entries = []                # transactions
 
     # category selection done in HTML in the template
 
+    (date_year, date_month, date_day) = datetime.date.today().isoformat().split('-')
+    form = ExpenseForm(domain=domain, email=email,
+                       accounts=accounts, account='',
+                       date_year=date_year, date_month=date_month, date_day=date_day,
+                       amount='', description='', category='',
+                       entries=[])
     if request.method == 'POST':
-        values = dict(
-            account=request.POST['account'],
-            amount=request.POST['amount'],
-            date=request.POST['date'],
-            description=request.POST['description'],
-            category=request.POST['category'],
-            )
-        # validate form: TODO: need more, like date (want picker)
-        try:
-            _famount = float(values['amount'])
-        except ValueError:
-            message = 'The amount must be an integer or floating point value'
-        else:
+        form.process_post(request.POST)
+        if form.is_valid():     # if not, sets form.errors
             data = """
 <bank-account-entry>
  <bank-account-id type="integer">%(account)s</bank-account-id>
- <dated-on type="datetime">%(date)sT00:00:00Z</dated-on>
+ <dated-on type="datetime">%(date_year)s-%(date_month)s-%(date_day)sT00:00:00Z</dated-on>
  <description>%(description)s</description>
  <entry-type>%(category)s</entry-type>
  <gross-value type="decimal">-%(amount)s</gross-value>
 </bank-account-entry>
-""" % values
-            response = _get_response(domain, email, password,
-                                     "/bank_accounts/%s/bank_account_entries" % values['account'],
-                                     data)
-            if response.code == 201:
-                message = "%s %s" % (response.msg, response.headers['location'])
-            else:
-                message = "Something bad? %s %s" % (response.code, response.msg)
-            entries = _get_bank_account_entries(domain, email, password,
-                                                request.POST['account']) # ick
+""" % form.__dict__
+            logging.info("expense post form data=%s" % data)
 
-            return dict(domain=domain, email=email,
-                        message=message, accounts=accounts, entries=entries)
+#              response = _get_response(domain, email, password,
+#                                       "/bank_accounts/%s/bank_account_entries" % form.account,
+#                                       data)
+#              if response.code == 201:
+#                  message = "%s %s" % (response.msg, response.headers['location'])
+#              else:
+#                  message = "Something bad? %s %s" % (response.code, response.msg)
+#              return dict(domain=domain, email=email,
+#                          message=message, accounts=accounts)
+#####    entries = _get_bank_account_entries(domain, email, password, form.account)
 
-    return dict(domain=domain, email=email,
-                message=message,accounts=accounts, entries=entries)
+            form.message = "OK dude"
+            return form.__dict__
+    # Method is GET or POST form invalid
+    form.message = "new form"
+    return form.__dict__

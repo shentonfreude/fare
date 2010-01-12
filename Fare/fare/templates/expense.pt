@@ -45,7 +45,10 @@
 	Amount <input id="amount" name="amount"></input>
 	<br/>
 
-	Date <input id="date" name="date"></input> (as YYYY-MM-DD)
+	Date as YYYY-MM-DD
+	<input id="date_year"  name="date_year"  value="${date_year}"  size="4"></input> 
+	<input id="date_month" name="date_month" value="${date_month}" size="2"></input> 
+	<input id="date_day"   name="date_day"   value="${date_day}"   size="2"></input> 
 	<br/>
 
 	Description <input id="description" name="description"></input>
